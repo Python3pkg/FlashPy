@@ -73,7 +73,7 @@ class Data():
 
     def get_keys(self):
         """Recover the list of keys from the file"""
-        keys = [key for key in self.contents.keys()]
+        keys = [key for key in list(self.contents.keys())]
 
         return keys
 
@@ -99,13 +99,13 @@ class Data():
             return key
 
         # first check if the key is actually one of the properties
-        if key in self.properties.keys():
+        if key in list(self.properties.keys()):
             logging.warning(
                 "Please use the properties attribute to find runtime parameters in future")
             return self.properties[key]
 
         # if not one of the properties then try and grab some values
-        if key in self.user_fields.keys():
+        if key in list(self.user_fields.keys()):
             dataset = self.user_fields[key][self.leaves]
         else:
             try:
@@ -331,7 +331,7 @@ class Data():
         >>> data.create_field("mom", ["dens*vel"])
         """
 
-        if name in self.get_keys() or name in self.user_fields.keys():
+        if name in self.get_keys() or name in list(self.user_fields.keys()):
             raise ValueError("Supplied name is already an existing field")
 
         if expr == []:  # there wasn't a supplied expression
